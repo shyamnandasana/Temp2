@@ -1,64 +1,157 @@
-﻿@model List<BookStorewithMVC.Models.UsersModel>
+@model List<BookStorewithMVC.Models.UsersModel>
 
 @{
     ViewData["Title"] = "User List";
 }
 
-<div class="container">
-
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0 ">User List</h2>
-        <a asp-action="AddEditUser" asp-controller="Users" class="btn btn-success mt-5">Add New User</a>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1 text-gradient">
+                <i class="fas fa-users me-2"></i>Users Management
+            </h1>
+            <p class="text-muted mb-0">Manage system users and their access</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="AddEditUser" asp-controller="Users" class="btn btn-success">
+                <i class="fas fa-user-plus me-2"></i>Add New User
+            </a>
+            <button class="btn btn-secondary">
+                <i class="fas fa-download me-2"></i>Export
+            </button>
+        </div>
     </div>
-    <table class="table table-bordered">
-        <thead class="table-dark">
-            <tr>
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>City</th>
-                <th>Password</th>
-                <th>Active</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Count > 0)
-            {
-                foreach (var user in Model)
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Users Table Card -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list me-2"></i>All Users
+            </h5>
+            <div class="d-flex align-items-center gap-3">
+                <div class="position-relative">
+                    <input type="text" class="form-control form-control-sm" placeholder="Search users..." style="padding-left: 35px; width: 250px;">
+                    <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ps-3 text-muted"></i>
+                </div>
+                <select class="form-select form-select-sm" style="width: auto;">
+                    <option>All Status</option>
+                    <option>Active</option>
+                    <option>Inactive</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                        <th><i class="fas fa-user me-2"></i>User</th>
+                        <th><i class="fas fa-envelope me-2"></i>Email</th>
+                        <th><i class="fas fa-phone me-2"></i>Phone</th>
+                        <th><i class="fas fa-map-marker-alt me-2"></i>City</th>
+                        <th><i class="fas fa-toggle-on me-2"></i>Status</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var user in Model)
                 {
                     <tr>
-                        <td>@user.UserId</td>
-                        <td>@user.FullName</td>
-                        <td>@user.Email</td>
-                        <td>@user.Phone</td>
-                        <td>@user.City</td>
-                        <td>@user.PasswordHash</td>
+                                <td>
+                                    <span class="badge bg-light text-dark">#@user.UserId</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-success rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">
+                                            <i class="fas fa-user text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">@user.FullName</h6>
+                                            <small class="text-muted">User ID: @user.UserId</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-envelope text-muted me-2"></i>
+                                        <a href="mailto:@user.Email" class="text-decoration-none">@user.Email</a>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-phone text-muted me-2"></i>
+                                        @user.Phone
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-map-marker-alt text-muted me-2"></i>
+                                        @user.City
+                                    </div>
+                                </td>
                         <td>
                             @if (user.IsActive == true)
                             {
-                                <span class="badge bg-success">Active</span>
+                                        <span class="badge bg-success">
+                                            <i class="fas fa-check me-1"></i>Active
+                                        </span>
                             }
                             else
                             {
-                                <span class="badge bg-danger">Inactive</span>
+                                        <span class="badge bg-danger">
+                                            <i class="fas fa-times me-1"></i>Inactive
+                                        </span>
                             }
                         </td>
-                     
                         <td>
-                            <a asp-action="AddEditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-primary ">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@user.UserId" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                                    <div class="d-flex gap-2">
+                                        <a asp-action="AddEditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit me-1"></i>Edit
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@user.UserId" onclick="return confirm('Are you sure you want to delete this user?')" class="btn btn-sm btn-danger">
+                                            <i class="fas fa-trash me-1"></i>Delete
+                                        </a>
+                                    </div>
                         </td>
                     </tr>
                 }
-            }
-            else
-            {
+                    }
+                    else
+                    {
                 <tr>
-                    <td colspan="10" class="text-center text-muted">No users found.</td>
+                            <td colspan="7" class="text-center py-5">
+                                <i class="fas fa-users text-muted mb-3" style="font-size: 3rem;"></i>
+                                <h5 class="text-muted">No users found</h5>
+                                <p class="text-muted mb-3">Start by adding your first user</p>
+                                <a asp-action="AddEditUser" class="btn btn-primary">
+                                    <i class="fas fa-user-plus me-2"></i>Add First User
+                                </a>
+                            </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

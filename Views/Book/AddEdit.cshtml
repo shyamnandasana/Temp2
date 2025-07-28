@@ -1,95 +1,149 @@
-﻿@model BookModel
+@model BookModel
 
 @{
     ViewData["Title"] = Model.BookId == 0 ? "Add Book" : "Edit Book";
 }
 
-<div class="container mt-4">
-    <h2>@ViewData["Title"]</h2>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1 text-gradient">
+                <i class="fas fa-@(Model.BookId == 0 ? "plus" : "edit") me-2"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-muted mb-0">@(Model.BookId == 0 ? "Add a new book to your catalog" : "Update book information")</p>
+        </div>
+        <a asp-action="Index" class="btn btn-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Books
+        </a>
+    </div>
 
+    <div class="card">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-info-circle me-2"></i>Book Information
+            </h5>
+        </div>
+        <div class="card-body">
     <form asp-action="AddEdit" method="post">
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <input type="hidden" asp-for="BookId" />
         <input type="hidden" asp-for="CreatedAt" />
 
-        <!-- User Dropdown -->
-        <div class="mb-3">
-            <label asp-for="UserId" class="form-label"></label>
+                <div class="row">
+                    <!-- Left Column -->
+                    <div class="col-md-6">
+                        <!-- User Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="UserId" class="form-label">
+                                <i class="fas fa-user me-2"></i>User
+                            </label>
             <select asp-for="UserId" class="form-select" asp-items="@(new SelectList(Model.UserList, "UserId", "FullName"))">
                 <option value="">-- Select User --</option>
             </select>
             <span asp-validation-for="UserId" class="text-danger"></span>
         </div>
 
-        <!-- Author Dropdown -->
-        <div class="mb-3">
-            <label asp-for="AuthorId" class="form-label"></label>
+                        <!-- Author Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="AuthorId" class="form-label">
+                                <i class="fas fa-pen-fancy me-2"></i>Author
+                            </label>
             <select asp-for="AuthorId" class="form-select" asp-items="@(new SelectList(Model.AuthorList, "AuthorId", "AuthorName"))">
                 <option value="">-- Select Author --</option>
             </select>
             <span asp-validation-for="AuthorId" class="text-danger"></span>
         </div>
 
-        <!-- Publisher Dropdown -->
-        <div class="mb-3">
-            <label asp-for="PublisherId" class="form-label"></label>
+                        <!-- Publisher Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="PublisherId" class="form-label">
+                                <i class="fas fa-building me-2"></i>Publisher
+                            </label>
             <select asp-for="PublisherId" class="form-select" asp-items="@(new SelectList(Model.PublisherList, "PublisherId", "PublisherName"))">
                 <option value="">-- Select Publisher --</option>
             </select>
             <span asp-validation-for="PublisherId" class="text-danger"></span>
         </div>
 
-        <!-- Category Dropdown -->
-        <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label"></label>
+                        <!-- Category Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="CategoryId" class="form-label">
+                                <i class="fas fa-tags me-2"></i>Category
+                            </label>
             <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(Model.CategoryList, "CategoryId", "CategoryName"))">
                 <option value="">-- Select Category --</option>
             </select>
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
 
-        <!-- Language Dropdown -->
-        <div class="mb-3">
-            <label asp-for="LanguageId" class="form-label"></label>
+                        <!-- Language Dropdown -->
+                        <div class="mb-4">
+                            <label asp-for="LanguageId" class="form-label">
+                                <i class="fas fa-language me-2"></i>Language
+                            </label>
             <select asp-for="LanguageId" class="form-select" asp-items="@(new SelectList(Model.LanguageList, "LanguageId", "LanguageName"))">
                 <option value="">-- Select Language --</option>
             </select>
             <span asp-validation-for="LanguageId" class="text-danger"></span>
         </div>
+                    </div>
 
-        <!-- Book Title -->
-        <div class="mb-3">
-            <label asp-for="Title" class="form-label"></label>
+                    <!-- Right Column -->
+                    <div class="col-md-6">
+                        <!-- Book Title -->
+                        <div class="mb-4">
+                            <label asp-for="Title" class="form-label">
+                                <i class="fas fa-book me-2"></i>Book Title
+                            </label>
             <input asp-for="Title" class="form-control" />
             <span asp-validation-for="Title" class="text-danger"></span>
         </div>
 
-        <!-- ISBN -->
-        <div class="mb-3">
-            <label asp-for="Isbn" class="form-label"></label>
+                        <!-- ISBN -->
+                        <div class="mb-4">
+                            <label asp-for="Isbn" class="form-label">
+                                <i class="fas fa-barcode me-2"></i>ISBN
+                            </label>
             <input asp-for="Isbn" class="form-control" />
             <span asp-validation-for="Isbn" class="text-danger"></span>
         </div>
 
-        <!-- Price -->
-        <div class="mb-3">
-            <label asp-for="Price" class="form-label"></label>
-            <input asp-for="Price" class="form-control" />
+                        <!-- Price -->
+                        <div class="mb-4">
+                            <label asp-for="Price" class="form-label">
+                                <i class="fas fa-dollar-sign me-2"></i>Price
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Price" class="form-control" />
+                            </div>
             <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
-        <!-- Stock -->
-        <div class="mb-3">
-            <label asp-for="Stock" class="form-label"></label>
+                        <!-- Stock -->
+                        <div class="mb-4">
+                            <label asp-for="Stock" class="form-label">
+                                <i class="fas fa-boxes me-2"></i>Stock Quantity
+                            </label>
             <input asp-for="Stock" class="form-control" />
             <span asp-validation-for="Stock" class="text-danger"></span>
         </div>
+                    </div>
+                </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">
-            @(Model.BookId == 0 ? "Add" : "Update")
-        </button>
-        <a asp-action="Index" class="btn btn-secondary">Back</a>
+                <!-- Submit Buttons -->
+                <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-@(Model.BookId == 0 ? "plus" : "save") me-2"></i>
+                        @(Model.BookId == 0 ? "Add Book" : "Update Book")
+                    </button>
+                </div>
     </form>
+        </div>
+    </div>
 </div>

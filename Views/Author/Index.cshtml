@@ -1,67 +1,135 @@
-﻿@model List<AuthorModel>
+@model List<AuthorModel>
 
 @{
     ViewData["Title"] = "Authors List";
 }
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-         <h2 class="mb-0 ">Author List</h2>
-        <div class="custom-search-bar d-none d-md-block w-50 position-relative">
-            <input type="text" class="form-control ps-4" placeholder="Search...">
-            <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ps-2 text-muted"></i>
+<div class="container-fluid">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 mb-1 text-gradient">
+                <i class="fas fa-pen-fancy me-2"></i>Authors Management
+            </h1>
+            <p class="text-muted mb-0">Manage your book authors and contributors</p>
         </div>
-         <a asp-action="AddEdit" asp-controller="Author" class="btn btn-success ">Add New Author</a>
+        <div class="d-flex gap-2">
+            <a asp-action="AddEdit" asp-controller="Author" class="btn btn-success">
+                <i class="fas fa-plus me-2"></i>Add New Author
+            </a>
+            <button class="btn btn-secondary">
+                <i class="fas fa-download me-2"></i>Export
+            </button>
+        </div>
     </div>
+
     @if (TempData["Message"] != null)
     {
-        <div class="alert alert-success alert-dismissible fade show mt-5" role="alert">
+        <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
             @TempData["Message"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Author ID</th>
-                <th>Author Name</th>
-                <th>User Name</th>
-                <th>Created At</th>
-                <th>Modified At</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Count > 0)
-            {
-                foreach (var author in Model)
+    <!-- Authors Table Card -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-list me-2"></i>All Authors
+            </h5>
+            <div class="position-relative">
+                <input type="text" class="form-control form-control-sm" placeholder="Search authors..." style="padding-left: 35px; width: 250px;">
+                <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ps-3 text-muted"></i>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                        <th><i class="fas fa-user me-2"></i>Author Name</th>
+                        <th><i class="fas fa-user-tie me-2"></i>Added By</th>
+                        <th><i class="fas fa-calendar-plus me-2"></i>Created</th>
+                        <th><i class="fas fa-calendar-edit me-2"></i>Modified</th>
+                        <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        foreach (var author in Model)
                 {
                     <tr>
-                        <td>@author.AuthorId</td>
-                        <td>@author.Name</td>
-                        <td>@author.FullName</td>
-                        <td>@(author.CreatedAt?.ToString("yyyy-MM-dd") ?? "-")</td>
-                        <td>@(author.ModifiedAt?.ToString("yyyy-MM-dd") ?? "-")</td>
+                                <td>
+                                    <span class="badge bg-light text-dark">#@author.AuthorId</span>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; min-width: 40px;">
+                                            <i class="fas fa-user text-white"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">@author.Name</h6>
+                                            <small class="text-muted">Author</small>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user-circle text-muted me-2"></i>
+                                        @author.FullName
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-calendar text-muted me-2"></i>
+                                        @(author.CreatedAt?.ToString("MMM dd, yyyy") ?? "-")
+                                    </div>
+                                </td>
+                                <td>
+                                    @if (author.ModifiedAt.HasValue)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-edit text-muted me-2"></i>
+                                            @author.ModifiedAt?.ToString("MMM dd, yyyy")
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">-</span>
+                                    }
+                                </td>
                         <td>
-                            <a asp-action="AddEdit" asp-route-id="@author.AuthorId" class="btn btn-sm btn-primary">
-                                Edit
+                                    <div class="d-flex gap-2">
+                                        <a asp-action="AddEdit" asp-route-id="@author.AuthorId" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit me-1"></i>Edit
                             </a>
                             <a asp-action="Delete" asp-route-id="@author.AuthorId"
                                onclick="return confirm('Are you sure you want to delete this author?');"
                                class="btn btn-sm btn-danger">
-                                Delete
+                                            <i class="fas fa-trash me-1"></i>Delete
                             </a>
+                                    </div>
                         </td>
                     </tr>
                 }
-            }
-            else
-            {
+                    }
+                    else
+                    {
                 <tr>
-                    <td colspan="6" class="text-center text-muted">No authors found.</td>
+                            <td colspan="6" class="text-center py-5">
+                                <i class="fas fa-user-plus text-muted mb-3" style="font-size: 3rem;"></i>
+                                <h5 class="text-muted">No authors found</h5>
+                                <p class="text-muted mb-3">Start by adding your first author</p>
+                                <a asp-action="AddEdit" class="btn btn-primary">
+                                    <i class="fas fa-plus me-2"></i>Add First Author
+                                </a>
+                            </td>
                 </tr>
-            }
-        </tbody>
-    </table>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

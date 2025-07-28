@@ -1,9 +1,175 @@
-﻿@{
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Dashboard Header -->
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h2 mb-1 text-gradient">Dashboard</h1>
+        <p class="text-muted mb-0">Welcome back! Here's what's happening with your bookstore.</p>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i>Quick Add
+        </button>
+        <button class="btn btn-secondary">
+            <i class="fas fa-download me-2"></i>Export
+        </button>
+    </div>
 </div>
-<h5>Hello World</h5>
+
+<!-- Stats Cards -->
+<div class="row g-4 mb-4">
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card hover-lift">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="stats-icon">
+                    <i class="fas fa-book text-primary" style="font-size: 2rem;"></i>
+                </div>
+                <div class="text-end">
+                    <div class="stats-number">1,234</div>
+                    <div class="stats-label">Total Books</div>
+                </div>
+            </div>
+            <div class="progress" style="height: 4px;">
+                <div class="progress-bar bg-primary" style="width: 75%"></div>
+            </div>
+            <small class="text-success mt-2 d-block">
+                <i class="fas fa-arrow-up me-1"></i>12% from last month
+            </small>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card hover-lift">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="stats-icon">
+                    <i class="fas fa-users text-success" style="font-size: 2rem;"></i>
+                </div>
+                <div class="text-end">
+                    <div class="stats-number">856</div>
+                    <div class="stats-label">Active Users</div>
+                </div>
+            </div>
+            <div class="progress" style="height: 4px;">
+                <div class="progress-bar bg-success" style="width: 60%"></div>
+            </div>
+            <small class="text-success mt-2 d-block">
+                <i class="fas fa-arrow-up me-1"></i>8% from last month
+            </small>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card hover-lift">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="stats-icon">
+                    <i class="fas fa-shopping-cart text-warning" style="font-size: 2rem;"></i>
+                </div>
+                <div class="text-end">
+                    <div class="stats-number">342</div>
+                    <div class="stats-label">Orders</div>
+                </div>
+            </div>
+            <div class="progress" style="height: 4px;">
+                <div class="progress-bar bg-warning" style="width: 45%"></div>
+            </div>
+            <small class="text-danger mt-2 d-block">
+                <i class="fas fa-arrow-down me-1"></i>3% from last month
+            </small>
+        </div>
+    </div>
+    
+    <div class="col-xl-3 col-md-6">
+        <div class="stats-card hover-lift">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="stats-icon">
+                    <i class="fas fa-dollar-sign text-info" style="font-size: 2rem;"></i>
+                </div>
+                <div class="text-end">
+                    <div class="stats-number">$24.5K</div>
+                    <div class="stats-label">Revenue</div>
+                </div>
+            </div>
+            <div class="progress" style="height: 4px;">
+                <div class="progress-bar bg-info" style="width: 85%"></div>
+            </div>
+            <small class="text-success mt-2 d-block">
+                <i class="fas fa-arrow-up me-1"></i>18% from last month
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions & Recent Activity -->
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Activity</h5>
+                <a href="#" class="btn btn-sm btn-primary">View All</a>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex align-items-center px-0 py-3 border-0">
+                        <div class="avatar-sm me-3">
+                            <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-book text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">New book "The Great Adventure" added</h6>
+                            <small class="text-muted">2 minutes ago</small>
+                        </div>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center px-0 py-3 border-0">
+                        <div class="avatar-sm me-3">
+                            <div class="bg-success rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">New user registration: John Doe</h6>
+                            <small class="text-muted">15 minutes ago</small>
+                        </div>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center px-0 py-3 border-0">
+                        <div class="avatar-sm me-3">
+                            <div class="bg-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                <i class="fas fa-shopping-cart text-white"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">Order #1234 completed</h6>
+                            <small class="text-muted">1 hour ago</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-3">
+                    <a href="@Url.Action("AddEdit", "Book")" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add New Book
+                    </a>
+                    <a href="@Url.Action("AddEdit", "Author")" class="btn btn-success">
+                        <i class="fas fa-user-plus me-2"></i>Add Author
+                    </a>
+                    <a href="@Url.Action("AddEditUser", "Users")" class="btn btn-info">
+                        <i class="fas fa-users me-2"></i>Add User
+                    </a>
+                    <a href="@Url.Action("Index", "Book")" class="btn btn-secondary">
+                        <i class="fas fa-list me-2"></i>View All Books
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
