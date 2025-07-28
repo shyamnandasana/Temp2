@@ -1,0 +1,364 @@
+﻿@* <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>@ViewData["Title"] - BookStore Admin</title>
+    <meta content="width=device-width, initial-scale=1.0, shrink-to-fit=no" name="viewport" />
+    <link rel="icon" href="~/favicon.ico" type="image/x-icon" />
+
+    <script src="~/js/plugin/webfont/webfont.min.js"></script>
+    <script>
+        WebFont.load({
+            google: { "families": ["Public Sans:300,400,500,600,700"] },
+            custom: {
+                "families": ["Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['/css/fonts.min.css']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/plugins.min.css" />
+    <link rel="stylesheet" href="~/css/kaiadmin.min.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <div class="sidebar" data-background-color="dark">
+            <div class="sidebar-logo">
+                <div class="logo-header" data-background-color="dark">
+                    <a asp-controller="Home" asp-action="Index" class="logo">
+                        <img src="~/img/kaiadmin/logo_light.svg" alt="BookStore Admin" class="navbar-brand" height="20" />
+                    </a>
+                    <div class="nav-toggle">
+                        <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
+                        <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
+                    </div>
+                    <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
+                </div>
+            </div>
+            <div class="sidebar-wrapper scrollbar scrollbar-inner">
+                <div class="sidebar-content">
+                    <ul class="nav nav-secondary">
+
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")">
+                            <a asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home"></i>
+                                <p>Dashboard</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-section">
+                            <span class="sidebar-mini-icon"><i class="fa fa-ellipsis-h"></i></span>
+                            <h4 class="text-section">Management</h4>
+                        </li>
+
+                        @{
+                            var catalogControllers = new[] { "Book", "Author", "Publisher", "Category", "Language" };
+                            var isCatalogActive = catalogControllers.Contains(ViewContext.RouteData.Values["Controller"]?.ToString());
+                        }
+                        <li class="nav-item @(isCatalogActive ? "active submenu" : "")">
+                            <a data-bs-toggle="collapse" href="#catalogMenu">
+                                <i class="fas fa-layer-group"></i>
+                                <p>Catalog</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse @(isCatalogActive ? "show" : "")" id="catalogMenu">
+                                <ul class="nav nav-collapse">
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Book" ? "active" : "")">
+                                        <a asp-controller="Book" asp-action="Index"><span class="sub-item">Books</span></a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Author" ? "active" : "")">
+                                        <a asp-controller="Author" asp-action="Index"><span class="sub-item">Authors</span></a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Publishers" ? "active" : "")">
+                                        <a asp-controller="Publishers" asp-action="Index"><span class="sub-item">Publishers</span></a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "active" : "")">
+                                        <a asp-controller="Category" asp-action="Index"><span class="sub-item">Categories</span></a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Language" ? "active" : "")">
+                                        <a asp-controller="Language" asp-action="Index"><span class="sub-item">Languages</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        @{
+                            var salesControllers = new[] { "Order", "Cart" };
+                            var isSalesActive = salesControllers.Contains(ViewContext.RouteData.Values["Controller"]?.ToString());
+                        }
+                        <li class="nav-item @(isSalesActive ? "active submenu" : "")">
+                            <a data-bs-toggle="collapse" href="#salesMenu">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>Sales</p>
+                                <span class="caret"></span>
+                            </a>
+                            <div class="collapse @(isSalesActive ? "show" : "")" id="salesMenu">
+                                <ul class="nav nav-collapse">
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")">
+                                        <a asp-controller="Order" asp-action="Index"><span class="sub-item">Orders</span></a>
+                                    </li>
+                                    <li class="@(ViewContext.RouteData.Values["Controller"]?.ToString() == "Cart" ? "active" : "")">
+                                        <a asp-controller="Cart" asp-action="Index"><span class="sub-item">Carts</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")">
+                            <a asp-controller="Users" asp-action="Index">
+                                <i class="fas fa-users"></i>
+                                <p>Users</p>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main-panel">
+            <div class="main-header">
+                <div class="main-header-logo">
+                    <div class="logo-header" data-background-color="dark">
+                        <a asp-controller="Home" asp-action="Index" class="logo">
+                            <img src="~/img/kaiadmin/logo_light.svg" alt="BookStore Admin" class="navbar-brand" height="20" />
+                        </a>
+                        <div class="nav-toggle">
+                            <button class="btn btn-toggle toggle-sidebar"><i class="gg-menu-right"></i></button>
+                            <button class="btn btn-toggle sidenav-toggler"><i class="gg-menu-left"></i></button>
+                        </div>
+                        <button class="topbar-toggler more"><i class="gg-more-vertical-alt"></i></button>
+                    </div>
+                </div>
+                <nav class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom">
+                    <div class="container-fluid">
+                        <nav class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex">
+                        </nav>
+
+                        <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                            <li class="nav-item topbar-user dropdown hidden-caret">
+                                <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                                    <div class="avatar-sm">
+                                        <img src="~/img/jm_denis.jpg" alt="..." class="avatar-img rounded-circle" />
+                                    </div>
+                                    <span class="profile-username">
+                                        <span class="op-7">Hi,</span>
+                                        <span class="fw-bold">Admin</span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-user animated fadeIn">
+                                    <div class="dropdown-user-scroll scrollbar-outer">
+                                    <li>
+                                        <div class="user-box">
+                                            <div class="avatar-lg">
+                                                <img src="~/img/jm_denis.jpg" alt="image profile" class="avatar-img rounded" />
+                                            </div>
+                                            <div class="u-text">
+                                                <h4>Admin User</h4>
+                                                <p class="text-muted">admin@bookstore.com</p>
+                                                <a href="#" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">My Profile</a>
+                                        <a class="dropdown-item" href="#">Account Setting</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="#">Logout</a>
+                                    </li>
+                    </div>
+                    </ul>
+                    </li>
+                    </ul>
+            </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <div class="page-inner">
+                    @RenderBody()
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Licenses</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="copyright ms-auto">
+                        @DateTime.Now.Year, made with by Shyam
+                </div>
+            </div>
+        </footer>
+    </div>
+    </div>
+
+    <script src="~/js/core/jquery.3.7.1.min.js"></script>
+    <script src="~/js/core/popper.min.js"></script>
+    <script src="~/js/core/bootstrap.min.js"></script>
+
+    <script src="~/js/plugin/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+    <script src="~/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+    <script src="~/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+    <script src="~/js/plugin/datatables/datatables.min.js"></script>
+
+    <script src="~/js/plugin/sweetalert/sweetalert.min.js"></script>
+
+    <script src="~/js/kaiadmin.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize DataTables on any table with the class 'datatable'
+            $('.datatable').DataTable();
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>*@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - BookStore Admin</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar fixed-top bg-white shadow-sm" id="topNavbar">
+        <div class="container-fluid d-flex justify-content-between align-items-center">
+            <!-- Left: Sidebar toggle + Brand -->
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link sidebar-toggle me-2" type="button" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <a class="navbar-brand fw-bold d-none d-sm-block" href="@Url.Action("Index", "Home")">
+                    <i class="fas fa-book-open text-primary me-1"></i>BookStore
+                </a>
+            </div>
+
+            <!-- Center: Search Bar -->
+            <div class="custom-search-bar d-none d-md-block w-50 position-relative">
+                <input type="text" class="form-control ps-4" placeholder="Search...">
+                <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ps-2 text-muted"></i>
+            </div>
+
+            <!-- Right: Notification & Profile -->
+            <div class="d-flex align-items-center">
+                <!-- Notification -->
+                <div class="dropdown me-3">
+                    <a class="nav-icon" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#">Notification 1</a></li>
+                    </ul>
+                </div>
+
+                <!-- Profile -->
+                <div class="dropdown">
+                    <a class="nav-icon" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' fill='currentColor' class='bi bi-person-circle' viewBox='0 0 16 16'%3E%3Cpath d='M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z'/%3E%3Cpath fill-rule='evenodd' d='M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z'/%3E%3C/svg%3E" alt="User">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-header">
+                            <small>Signed in as</small><br>
+                            <strong>@User.Identity.Name</strong>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form asp-controller="Account" asp-action="Logout" method="post">
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="sidebar-overlay d-lg-none" id="sidebarOverlay"></div>
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <i class="fas fa-book-open"></i>
+            <span class="sidebar-title">BookStore</span>
+        </div>
+        <ul class="nav flex-column sidebar-nav">
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">
+                    <i class="fas fa-tachometer-alt fa-fw"></i><span class="nav-text">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link has-submenu" href="#" data-bs-toggle="collapse" data-bs-target="#catalogSubmenu">
+                    <i class="fas fa-layer-group fa-fw"></i><span class="nav-text">Catalog</span>
+                    <i class="fas fa-chevron-down submenu-arrow"></i>
+                </a>
+                <div class="collapse submenu" id="catalogSubmenu">
+                    <ul class="nav flex-column">
+                        <li><a class="nav-link submenu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Book" ? "active" : "")" href="@Url.Action("Index", "Book")">Books</a></li>
+                        <li><a class="nav-link submenu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Author" ? "active" : "")" href="@Url.Action("Index", "Author")">Authors</a></li>
+                        <li><a class="nav-link submenu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Publishers" ? "active" : "")" href="@Url.Action("Index", "Publishers")">Publishers</a></li>
+                        <li><a class="nav-link submenu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "active" : "")" href="@Url.Action("Index", "Category")">Categories</a></li>
+                        <li><a class="nav-link submenu-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Language" ? "active" : "")" href="@Url.Action("Index", "Language")">Languages</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Order" ? "active" : "")" href="@Url.Action("Index", "Order")">
+                    <i class="fas fa-shopping-cart fa-fw"></i><span class="nav-text">Orders</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Users" ? "active" : "")" href="@Url.Action("Index", "Users")">
+                    <i class="fas fa-users fa-fw"></i><span class="nav-text">Users</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <main class="main-content" id="mainContent">
+        <div class="container-fluid p-4">
+          @*    @if (ViewData["Title"] != null)
+            {
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                    <a href="#" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus me-1"></i> Add New
+                    </a>
+                </div>
+            } *@
+            @RenderBody()
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

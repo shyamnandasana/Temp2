@@ -1,0 +1,9 @@
+# Ignore build and cache files
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.vspscc

@@ -1,0 +1,77 @@
+﻿@model List<BookModel>
+
+@{
+    ViewData["Title"] = "Book List";
+}
+
+<div class="container ">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="f">Books</h2>
+        <a asp-action="AddEdit" asp-controller="Book" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Add New Book
+        </a>
+    </div>
+
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>ISBN</th>
+                    <th>Title</th>
+                    <th>User Name</th>
+                    <th>Author</th>
+                    <th>Publisher</th>
+                    <th>Language</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th style="min-width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Isbn</td>
+                            <td>@item.Title</td>
+                            <td>@item.FullName</td>
+                            <td>@item.AuthorName</td>
+                            <td>@item.PublisherName</td>
+                            <td>@item.LanguageName</td>
+                            <td>@item.CategoryName</td>
+                            <td>@item.Price?.ToString("C")</td>
+                            <td>@item.Stock</td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a asp-action="AddEdit" asp-route-id="@item.BookId" class="btn btn-sm btn-primary">
+                                        <i class="bi bi-pencil-square"></i> Edit
+                                    </a>
+                                    <a asp-action="DeleteBook" asp-route-id="@item.BookId" class="btn btn-sm btn-danger"
+                                       onclick="return confirm('Are you sure to delete this book?');">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="10" class="text-center text-muted">No books found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

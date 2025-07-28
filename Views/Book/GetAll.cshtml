@@ -1,0 +1,59 @@
+﻿@model List<BookModel>
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mt-5">Book List</h2>      
+    </div>
+    <a asp-action="AddEdit" asp-controller="Book" class="btn btn-success mb-3">Add New Book</a>
+
+    <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Book ID</th>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>User</th>
+                <th>Publisher</th>
+                <th>Language</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Stock</th>
+               
+                <th style="width: 150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.BookId</td>
+                        <td>@item.Isbn</td>
+                        <td>@item.Title</td>
+                        <td>@item.AuthorId</td>
+                        <td>@item.FullName</td>
+                        <td>@item.PublisherId</td>
+                        <td>@item.LanguageId</td>
+                        <td>@item.CategoryId</td>
+                        <td>@item.Price?.ToString("C")</td>
+                        <td>@item.Stock</td>
+                        
+                        <td>
+                            <a asp-action="AddEdit" asp-route-id="@item.BookId" class="btn btn-sm btn-primary mb-2">Edit</a>
+                            <a asp-action="DeleteBook" asp-route-id="@item.BookId" class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure to delete this book?');">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="12" class="text-center">No books found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

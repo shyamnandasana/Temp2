@@ -1,0 +1,36 @@
+﻿@model BookStorewithMVC.Models.AuthorModel
+
+@{
+    ViewData["Title"] = Model.AuthorId == 0 ? "Add Author" : "Edit Author";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+    <h2 class="mt-5">Add Auhtor</h2>
+    <form asp-action="AddEdit" method="post">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <input type="hidden" asp-for="AuthorId" />
+        <input type="hidden" asp-for="CreatedAt" />
+        <input type="hidden" asp-for="ModifiedAt" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="UserId" class="form-label"></label>
+            <select asp-for="UserId" class="form-select" asp-items="@(new SelectList(Model.UserList, "UserId", "FullName"))">
+                <option value="">-- Select User --</option>
+            </select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            @(Model.AuthorId == 0 ? "Add" : "Update")
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </form>
+</div>

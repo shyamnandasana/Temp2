@@ -1,0 +1,95 @@
+﻿@model BookModel
+
+@{
+    ViewData["Title"] = Model.BookId == 0 ? "Add Book" : "Edit Book";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="AddEdit" method="post">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <input type="hidden" asp-for="BookId" />
+        <input type="hidden" asp-for="CreatedAt" />
+
+        <!-- User Dropdown -->
+        <div class="mb-3">
+            <label asp-for="UserId" class="form-label"></label>
+            <select asp-for="UserId" class="form-select" asp-items="@(new SelectList(Model.UserList, "UserId", "FullName"))">
+                <option value="">-- Select User --</option>
+            </select>
+            <span asp-validation-for="UserId" class="text-danger"></span>
+        </div>
+
+        <!-- Author Dropdown -->
+        <div class="mb-3">
+            <label asp-for="AuthorId" class="form-label"></label>
+            <select asp-for="AuthorId" class="form-select" asp-items="@(new SelectList(Model.AuthorList, "AuthorId", "AuthorName"))">
+                <option value="">-- Select Author --</option>
+            </select>
+            <span asp-validation-for="AuthorId" class="text-danger"></span>
+        </div>
+
+        <!-- Publisher Dropdown -->
+        <div class="mb-3">
+            <label asp-for="PublisherId" class="form-label"></label>
+            <select asp-for="PublisherId" class="form-select" asp-items="@(new SelectList(Model.PublisherList, "PublisherId", "PublisherName"))">
+                <option value="">-- Select Publisher --</option>
+            </select>
+            <span asp-validation-for="PublisherId" class="text-danger"></span>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label"></label>
+            <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(Model.CategoryList, "CategoryId", "CategoryName"))">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <!-- Language Dropdown -->
+        <div class="mb-3">
+            <label asp-for="LanguageId" class="form-label"></label>
+            <select asp-for="LanguageId" class="form-select" asp-items="@(new SelectList(Model.LanguageList, "LanguageId", "LanguageName"))">
+                <option value="">-- Select Language --</option>
+            </select>
+            <span asp-validation-for="LanguageId" class="text-danger"></span>
+        </div>
+
+        <!-- Book Title -->
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+
+        <!-- ISBN -->
+        <div class="mb-3">
+            <label asp-for="Isbn" class="form-label"></label>
+            <input asp-for="Isbn" class="form-control" />
+            <span asp-validation-for="Isbn" class="text-danger"></span>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-3">
+            <label asp-for="Stock" class="form-label"></label>
+            <input asp-for="Stock" class="form-control" />
+            <span asp-validation-for="Stock" class="text-danger"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">
+            @(Model.BookId == 0 ? "Add" : "Update")
+        </button>
+        <a asp-action="Index" class="btn btn-secondary">Back</a>
+    </form>
+</div>

@@ -1,0 +1,64 @@
+﻿@model List<BookStorewithMVC.Models.UsersModel>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="mb-0 ">User List</h2>
+        <a asp-action="AddEditUser" asp-controller="Users" class="btn btn-success mt-5">Add New User</a>
+    </div>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>City</th>
+                <th>Password</th>
+                <th>Active</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserId</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>@user.City</td>
+                        <td>@user.PasswordHash</td>
+                        <td>
+                            @if (user.IsActive == true)
+                            {
+                                <span class="badge bg-success">Active</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactive</span>
+                            }
+                        </td>
+                     
+                        <td>
+                            <a asp-action="AddEditUser" asp-route-id="@user.UserId" class="btn btn-sm btn-primary ">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@user.UserId" onclick="return confirm('Are you sure?')" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="10" class="text-center text-muted">No users found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
