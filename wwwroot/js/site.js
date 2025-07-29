@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar = document.getElementById('sidebar');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
-    const mainContent = document.getElementById('mainContent');
 
     if (sidebarToggle) {
         sidebarToggle.addEventListener('click', function() {
@@ -21,6 +20,27 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('sidebar-open');
         });
     }
+
+    // Close sidebar when clicking on a menu item on mobile
+    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('show');
+                sidebarOverlay.classList.remove('show');
+                document.body.classList.remove('sidebar-open');
+            }
+        });
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', function() {
+        if (window.innerWidth >= 992) {
+            sidebar.classList.remove('show');
+            sidebarOverlay.classList.remove('show');
+            document.body.classList.remove('sidebar-open');
+        }
+    });
 
     // Auto-hide alerts after 5 seconds
     const alerts = document.querySelectorAll('.alert');
